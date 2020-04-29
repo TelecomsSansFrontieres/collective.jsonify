@@ -652,6 +652,20 @@ class Wrapper(dict):
 
         self['_gopip'] = pos
 
+    def get_translation_group(self):
+        """ Get multilingual translation group information.
+        """
+        ctype = self.context.getPortalTypeName()
+        path = '/'.join(self.context.getPhysicalPath())
+        query = {"portal_type": ctype, "path": path}
+        results = self.context.queryCatalog(query)
+        for result in results:
+            if not hasattr(result, 'TranslationGroup'):
+                return
+            else:
+                self['_translationgroup'] = result.TranslationGroup
+                break
+
     def get_translation(self):
         """ Get LinguaPlone translation linking information.
         """
